@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chameleon.cilicili.mapper.UserInfoMapper">
+    <resultMap id="userInfoMap" type="com.chameleon.cilicili.model.entity.UserInfo">
+        <id property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="username" column="username" />
+        <result property="email" column="email" />
+        <result property="password" column="password" />
+        <result property="sex" column="sex" />
+        <result property="intro" column="intro" />
+        <result property="joinTime" column="join_time" />
+        <result property="lastLogin" column="last_login" />
+        <result property="coinNum" column="coin_num" />
+        <result property="status" column="status" />
+        <result property="level" column="level" />
+        <result property="xp" column="xp" />
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_info (user_id, username, email, password) 
+        VALUES (#{userId}, #{username}, #{email}, #{password})
+    </insert>
+
+    <update id="update">
+        UPDATE user_info SET username = #{username}, email = #{email} WHERE id = #{id}
+    </update>
+
+    <select id="selectByUserId" resultMap="userInfoMap">
+        SELECT * FROM user_info WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectByUsername" resultMap="userInfoMap">
+        SELECT * FROM user_info WHERE username = #{username}
+    </select>
+
+    <select id="selectByEmail" resultMap="userInfoMap">
+        SELECT * FROM user_info WHERE email = #{email}
+    </select>
+
+    <delete id="deleteByUserId">
+        DELETE FROM user_info WHERE user_id = #{userId}
+    </delete>
+</mapper>
