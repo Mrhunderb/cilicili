@@ -1,6 +1,6 @@
 package com.chameleon.cilicili.model.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,12 +49,12 @@ public class UserInfo {
     /**
      * 入站时间
      */
-    private LocalDateTime joinTime;
+    private Timestamp joinTime;
 
     /**
      * 最后登录时间
      */
-    private LocalDateTime lastLogin;
+    private Timestamp lastLogin;
 
     /**
      * 硬币数量
