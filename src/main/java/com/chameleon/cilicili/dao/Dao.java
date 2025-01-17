@@ -8,7 +8,6 @@ public interface Dao {
 
     public void update(Object obj);
 
-
     public Object selectById(String id);
 
     public void deleteById(String id);
