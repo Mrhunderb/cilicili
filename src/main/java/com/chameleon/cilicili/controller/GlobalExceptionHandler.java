@@ -1,5 +1,7 @@
 package com.chameleon.cilicili.controller;
 
+import java.io.IOException;
+
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MyBatisSystemException.class)
     public ResponseEntity<?> exceptionHandlerExceptionResolverResponseEntity(Exception e) {
         ResponseVO<?> response = ResponseVO.failure(500, "database error");
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = IOException.class)
+    public ResponseEntity<?> ioExceptionResponseEntity(Exception e) {
+        ResponseVO<?> response = ResponseVO.failure(500, "IO error");
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     

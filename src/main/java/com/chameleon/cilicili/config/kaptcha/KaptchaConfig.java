@@ -1,4 +1,4 @@
-package com.chameleon.cilicili.config;
+package com.chameleon.cilicili.config.kaptcha;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
