@@ -27,8 +27,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public UserInfo findByUserId(String userId) {
         UserInfo userInfo = userInfoDao.selectById(userId);
-        kaptcha.createText();
-        redisUtils.set("kaptcha", kaptcha.createText());
+        if (userInfo == null) {
+            throw new RuntimeException("用户不存在");
+        }
         return userInfo;
     }
 
