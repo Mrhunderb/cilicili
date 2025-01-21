@@ -1,6 +1,5 @@
 package com.chameleon.cilicili.controller;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,9 @@ public class CommonController {
 
     @Autowired
     private KaptchaUtils kaptchaUtils;
-   
+ 
     @GetMapping("/captcha")
-    public ResponseEntity<?> captcha() throws IOException {
+    public ResponseEntity<?> captcha() {
         Map<String, Object> map = kaptchaUtils.createCaptcha();
         ResponseVO<?> r = ResponseVO.success(map);
         return ResponseEntity.ok(r);
