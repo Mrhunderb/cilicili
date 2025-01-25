@@ -19,6 +19,10 @@
         SELECT * FROM user_info WHERE user_id = #{userId}
     </select>
 
+    <select id="selectByEmail">
+        SELECT * FROM user_info WHERE email = #{email}
+    </select>
+
     <delete id="deleteById">
         DELETE FROM user_info WHERE user_id = #{userId}
     </delete>

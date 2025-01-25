@@ -41,8 +41,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = KaptchaException.class)
     public ResponseEntity<?> kaptchaExceptionResponseEntity(KaptchaException e) {
-        ResponseVO<?> response = ResponseVO.failure(500, e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        ResponseVO<?> response = ResponseVO.failure(400, e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = HttpMediaTypeNotSupportedException.class)
@@ -53,8 +53,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = ServiceException.class)
     public ResponseEntity<?> serviceExpectionResponseEntity(ServiceException e) {
-        ResponseVO<?> response = ResponseVO.failure(500, e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        ResponseVO<?> response = ResponseVO.failure(400, e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
     
     @ExceptionHandler(value = Exception.class)

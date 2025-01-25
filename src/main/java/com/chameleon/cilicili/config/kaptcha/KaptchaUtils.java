@@ -55,13 +55,12 @@ public class KaptchaUtils {
         return map;
     }
 
-    public Boolean validateCaptcha(String id, String text) {
+    public void validateCaptcha(String id, String text) {
         String captcha = (String) redisUtils.get(key+id);
         if (captcha == null || !captcha.equals(text)) {
-            return false;
+            throw new KaptchaException("验证码错误");
         }
         redisUtils.delete(key+id);
-        return true;
     }
     
 }

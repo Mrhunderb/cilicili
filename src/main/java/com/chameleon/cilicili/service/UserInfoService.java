@@ -9,6 +9,8 @@ public interface UserInfoService {
 
     public UserInfo findByUserId(String userId);
 
+    public UserInfo findByEmail(String email);
+
     public void save(UserInfo userInfo);
 
     public void update(UserInfo userInfo);
@@ -16,5 +18,9 @@ public interface UserInfoService {
     public void deleteByUserId(String userId);
 
     public List<UserInfoDto> findAll();
+
+    public Boolean isExist(String userId);
+
+    public void register(String email, String username, String password);
 
 }

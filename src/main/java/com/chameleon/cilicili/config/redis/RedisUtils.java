@@ -45,5 +45,10 @@ public class RedisUtils {
     public void set(String key, Object value, long timeout, java.util.concurrent.TimeUnit timeUnit) {
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
     }
-    
+
+    public String generateID() {
+        Long id = redisTemplate.opsForValue().increment("user:id");
+        return String.valueOf(id);
+    }
+
 }

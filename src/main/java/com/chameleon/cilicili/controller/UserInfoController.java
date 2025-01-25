@@ -3,17 +3,20 @@ package com.chameleon.cilicili.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chameleon.cilicili.config.kaptcha.KaptchaUtils;
+import com.chameleon.cilicili.controller.request.RegisterRequest;
 import com.chameleon.cilicili.controller.response.ResponseVO;
 import com.chameleon.cilicili.model.entity.UserInfo;
 import com.chameleon.cilicili.service.impl.UserInfoServiceImpl;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -22,8 +25,12 @@ public class UserInfoController {
     @Autowired
     private final UserInfoServiceImpl userInfoService;
 
-    public UserInfoController(UserInfoServiceImpl userInfoService) {
+    @Autowired
+    private final KaptchaUtils kaptchaUtils;
+
+    public UserInfoController(UserInfoServiceImpl userInfoService, KaptchaUtils kaptchaUtils) {
         this.userInfoService = userInfoService;
+        this.kaptchaUtils = kaptchaUtils;
     }
 
     public UserInfoServiceImpl getUserInfoService() {
@@ -40,10 +47,10 @@ public class UserInfoController {
         return response;
     }
 
-    @GetMapping("/register")
-    public ResponseEntity<?> register(@NotEmpty @Email String email, 
-                                      @NotEmpty @Size(max = 20) String username,
-                                      @NotEmpty @Size(max = 50) String password) {
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
+        kaptchaUtils.validateCaptcha(request.captchaId, request.value);
+        userInfoService.register(request.email, request.username, request.password);
         return ResponseEntity.ok(new String());
     }
     

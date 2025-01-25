@@ -19,6 +19,8 @@ public interface UserInfoDaoImpl extends Dao {
     @Override
     public UserInfo selectById(String id);
 
+    public UserInfo selectByEmail(String email);
+
     @Override
     public void deleteById(String userId);
 
