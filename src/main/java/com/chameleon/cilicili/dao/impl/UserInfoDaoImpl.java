@@ -27,4 +27,6 @@ public interface UserInfoDaoImpl extends Dao {
     @Override
     public List<UserInfo> selectAll();
 
+    public UserInfo selectByUsername(String username);
+
 }

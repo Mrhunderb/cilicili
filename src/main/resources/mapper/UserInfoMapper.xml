@@ -31,4 +31,8 @@
         SELECT * FROM user_info
     </select>
 
+    <select id="selectByUsername">
+        SELECT * FROM user_info WHERE username = #{username}
+    </select>
+
 </mapper>

@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.chameleon.cilicili.config.redis.RedisUtils;
+import com.chameleon.cilicili.config.security.SecurityUtils;
 import com.chameleon.cilicili.dao.impl.UserInfoDaoImpl;
 import com.chameleon.cilicili.exception.ServiceException;
 import com.chameleon.cilicili.model.dto.UserInfoDto;
@@ -21,7 +21,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserInfoDaoImpl userInfoDao;
 
     @Autowired
-    private RedisUtils redisUtils;
+    private SecurityUtils securityUtils;
 
     @Override
     public UserInfo findByUserId(String userId) {
@@ -32,6 +32,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public UserInfo findByEmail(String email) {
         UserInfo userInfo = userInfoDao.selectByEmail(email);
+        return userInfo;
+    }
+
+    @Override
+    public UserInfo findByUsername(String username) {
+        UserInfo userInfo = userInfoDao.selectByUsername(username);
         return userInfo;
     }
 
@@ -79,11 +85,16 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (user != null) {
             throw new ServiceException("该邮箱已被注册");
         }
+        user = findByUsername(username);
+        if (user != null) {
+            throw new ServiceException("该用户名已被注册");
+        }
+
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(UUID.randomUUID().toString());
         userInfo.setEmail(email);
         userInfo.setUsername(username);
-        userInfo.setPassword(password);
+        userInfo.setPassword(securityUtils.encode(password));
         userInfo.setJoinTime(new Timestamp(System.currentTimeMillis()));
         save(userInfo);
     }

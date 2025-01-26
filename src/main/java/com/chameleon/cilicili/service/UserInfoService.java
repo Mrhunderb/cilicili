@@ -11,6 +11,8 @@ public interface UserInfoService {
 
     public UserInfo findByEmail(String email);
 
+    public UserInfo findByUsername(String username);
+
     public void save(UserInfo userInfo);
 
     public void update(UserInfo userInfo);
