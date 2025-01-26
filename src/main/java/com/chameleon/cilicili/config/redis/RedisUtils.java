@@ -10,45 +10,42 @@ public class RedisUtils {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    private final String prefix = "cilicili:";
+
     public void set(String key, Object value) {
         redisTemplate.opsForValue().set(key, value);
     }
 
     public Object get(String key) {
         try {
-            return redisTemplate.opsForValue().get(key);
+            return redisTemplate.opsForValue().get(prefix+key);
         } catch (Exception e) {
             return null;
         }
     }
 
     public void delete(String key) {
-        redisTemplate.delete(key);
+        redisTemplate.delete(prefix+key);
     }
 
     public boolean hasKey(String key) {
-        return redisTemplate.hasKey(key);
+        return redisTemplate.hasKey(prefix+key);
     }
 
     public void expire(String key, long timeout) {
-        redisTemplate.expire(key, timeout, java.util.concurrent.TimeUnit.SECONDS);
+        redisTemplate.expire(prefix+key, timeout, java.util.concurrent.TimeUnit.SECONDS);
     }
 
     public void expire(String key, long timeout, java.util.concurrent.TimeUnit timeUnit) {
-        redisTemplate.expire(key, timeout, timeUnit);
+        redisTemplate.expire(prefix+key, timeout, timeUnit);
     }
 
     public void set(String key, Object value, long timeout) {
-        redisTemplate.opsForValue().set(key, value, timeout, java.util.concurrent.TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(prefix+key, value, timeout, java.util.concurrent.TimeUnit.SECONDS);
     }
 
     public void set(String key, Object value, long timeout, java.util.concurrent.TimeUnit timeUnit) {
-        redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
-    }
-
-    public String generateID() {
-        Long id = redisTemplate.opsForValue().increment("user:id");
-        return String.valueOf(id);
+        redisTemplate.opsForValue().set(prefix+key, value, timeout, timeUnit);
     }
 
 }

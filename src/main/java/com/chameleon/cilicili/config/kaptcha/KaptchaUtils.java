@@ -1,13 +1,15 @@
 package com.chameleon.cilicili.config.kaptcha;
 
-import java.io.ByteArrayOutputStream;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Base64;
 import org.springframework.stereotype.Component;
 
 import com.chameleon.cilicili.config.redis.RedisUtils;
@@ -32,11 +34,11 @@ public class KaptchaUtils {
         return defaultKaptcha.createText();
     }
 
-    public byte[] createImage(String text) {
+    public String createImage(String text) {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ImageIO.write(defaultKaptcha.createImage(text), "jpg", outputStream);
-            return outputStream.toByteArray();
+            return Base64.getEncoder().encodeToString(outputStream.toByteArray());
         } catch (Exception e) {
             throw new KaptchaException("生成验证码图片失败");
         }
@@ -49,7 +51,7 @@ public class KaptchaUtils {
     public Map<String, Object> createCaptcha() {
         Map<String, Object> map = new HashMap<>();
         String text = createText();
-        map.put("image", createImage(text));
+        map.put("image", "data:image/jpg;base64,"+createImage(text));
         map.put("id", createUUID().toString());
         redisUtils.set(key+map.get("id").toString(), text, 60);
         return map;
