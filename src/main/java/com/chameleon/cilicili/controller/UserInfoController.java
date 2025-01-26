@@ -1,7 +1,6 @@
 package com.chameleon.cilicili.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chameleon.cilicili.config.kaptcha.KaptchaUtils;
+import com.chameleon.cilicili.controller.request.LoginRequset;
 import com.chameleon.cilicili.controller.request.RegisterRequest;
 import com.chameleon.cilicili.controller.response.ResponseVO;
 import com.chameleon.cilicili.model.entity.UserInfo;
@@ -48,10 +48,19 @@ public class UserInfoController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseVO<?> register(@Valid @RequestBody RegisterRequest request) {
         kaptchaUtils.validateCaptcha(request.captchaId, request.value);
         userInfoService.register(request.email, request.username, request.password);
-        return ResponseEntity.ok(new String());
+        ResponseVO<String> response = new ResponseVO<String>();
+        response.setCode(200);
+        response.setMessage("success");
+        return response;
     }
+
+    @PostMapping("/login")
+    public String login(@Valid @RequestBody LoginRequset request) {
+        return new String();
+    }
+    
     
 }
