@@ -10,7 +10,7 @@ public class RedisUtils {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    private final String prefix = "cilicili:";
+    private final String PREFIX = "cilicili:";
 
     public void set(String key, Object value) {
         redisTemplate.opsForValue().set(key, value);
@@ -18,34 +18,34 @@ public class RedisUtils {
 
     public Object get(String key) {
         try {
-            return redisTemplate.opsForValue().get(prefix+key);
+            return redisTemplate.opsForValue().get(PREFIX+key);
         } catch (Exception e) {
             return null;
         }
     }
 
     public void delete(String key) {
-        redisTemplate.delete(prefix+key);
+        redisTemplate.delete(PREFIX+key);
     }
 
     public boolean hasKey(String key) {
-        return redisTemplate.hasKey(prefix+key);
+        return redisTemplate.hasKey(PREFIX+key);
     }
 
     public void expire(String key, long timeout) {
-        redisTemplate.expire(prefix+key, timeout, java.util.concurrent.TimeUnit.SECONDS);
+        redisTemplate.expire(PREFIX+key, timeout, java.util.concurrent.TimeUnit.SECONDS);
     }
 
     public void expire(String key, long timeout, java.util.concurrent.TimeUnit timeUnit) {
-        redisTemplate.expire(prefix+key, timeout, timeUnit);
+        redisTemplate.expire(PREFIX+key, timeout, timeUnit);
     }
 
     public void set(String key, Object value, long timeout) {
-        redisTemplate.opsForValue().set(prefix+key, value, timeout, java.util.concurrent.TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(PREFIX+key, value, timeout, java.util.concurrent.TimeUnit.SECONDS);
     }
 
     public void set(String key, Object value, long timeout, java.util.concurrent.TimeUnit timeUnit) {
-        redisTemplate.opsForValue().set(prefix+key, value, timeout, timeUnit);
+        redisTemplate.opsForValue().set(PREFIX+key, value, timeout, timeUnit);
     }
 
 }

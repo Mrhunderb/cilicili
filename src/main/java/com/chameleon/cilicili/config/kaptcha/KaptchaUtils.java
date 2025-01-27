@@ -1,6 +1,6 @@
 package com.chameleon.cilicili.config.kaptcha;
 
-import java.awt.image.BufferedImage;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.Base64;
 import org.springframework.stereotype.Component;
 
 import com.chameleon.cilicili.config.redis.RedisUtils;
@@ -22,9 +21,16 @@ public class KaptchaUtils {
     @Autowired
     private DefaultKaptcha defaultKaptcha;
 
-    private String key = "captcha:";
+    @Autowired 
+    private RedisUtils redisUtils;
 
-    @Autowired RedisUtils redisUtils;
+    private final String KEY = "captcha:";
+
+    private final long TIMEOUT_SECOND = 60;
+
+    private final String FORMAT = "png";
+
+    private final String DATA_URL_PREFIX = "data:image/"+ FORMAT +";base64,";
 
     public DefaultKaptcha getDefaultKaptcha() {
         return defaultKaptcha;
@@ -37,7 +43,7 @@ public class KaptchaUtils {
     public String createImage(String text) {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(defaultKaptcha.createImage(text), "jpg", outputStream);
+            ImageIO.write(defaultKaptcha.createImage(text), FORMAT, outputStream);
             return Base64.getEncoder().encodeToString(outputStream.toByteArray());
         } catch (Exception e) {
             throw new KaptchaException("生成验证码图片失败");
@@ -51,18 +57,18 @@ public class KaptchaUtils {
     public Map<String, Object> createCaptcha() {
         Map<String, Object> map = new HashMap<>();
         String text = createText();
-        map.put("image", "data:image/jpg;base64,"+createImage(text));
+        map.put("image", DATA_URL_PREFIX+createImage(text));
         map.put("id", createUUID().toString());
-        redisUtils.set(key+map.get("id").toString(), text, 60);
+        redisUtils.set(KEY+map.get("id").toString(), text, TIMEOUT_SECOND);
         return map;
     }
 
     public void validateCaptcha(String id, String text) {
-        String captcha = (String) redisUtils.get(key+id);
+        String captcha = (String) redisUtils.get(KEY+id);
         if (captcha == null || !captcha.equals(text)) {
             throw new KaptchaException("验证码错误");
         }
-        redisUtils.delete(key+id);
+        redisUtils.delete(KEY+id);
     }
     
 }

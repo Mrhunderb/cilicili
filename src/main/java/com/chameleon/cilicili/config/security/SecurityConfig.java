@@ -20,7 +20,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // 禁用 CSRF 防护（根据需求）
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/**").permitAll() // 开放 /public/** 接口
+                        .requestMatchers("/api/**").permitAll() // 开放 /api/** 接口
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults()); // 启用 Basic 认证（可选，根据需求）
 
