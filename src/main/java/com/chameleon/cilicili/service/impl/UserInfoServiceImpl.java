@@ -99,4 +99,18 @@ public class UserInfoServiceImpl implements UserInfoService {
         save(userInfo);
     }
 
+    @Override
+    public void login(String email, String password) {
+        UserInfo user = findByEmail(email);
+        if (user == null) {
+            throw new ServiceException("该邮箱未注册");
+        }
+        if (!securityUtils.matches(password, user.getPassword())) {
+            throw new ServiceException("密码错误");
+        }
+
+        user.setLastLogin(new Timestamp(System.currentTimeMillis()));
+        update(user);
+    }
+
 }

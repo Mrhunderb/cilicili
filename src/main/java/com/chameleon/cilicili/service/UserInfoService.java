@@ -25,4 +25,6 @@ public interface UserInfoService {
 
     public void register(String email, String username, String password);
 
+    public void login(String email, String password);
+
 }

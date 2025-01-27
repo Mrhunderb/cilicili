@@ -17,7 +17,6 @@ import com.chameleon.cilicili.service.impl.UserInfoServiceImpl;
 
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping("/api/user")
 public class UserInfoController {
@@ -40,10 +39,7 @@ public class UserInfoController {
     @GetMapping("/info")
     public ResponseVO<?> getUserInfo(@RequestParam String userId) {
         UserInfo user = userInfoService.findByUserId(userId);
-        ResponseVO<UserInfo> response = new ResponseVO<UserInfo>();
-        response.setCode(200);
-        response.setMessage("success");
-        response.setData(user);
+        ResponseVO<UserInfo> response = ResponseVO.success(user);
         return response;
     }
 
@@ -51,16 +47,14 @@ public class UserInfoController {
     public ResponseVO<?> register(@Valid @RequestBody RegisterRequest request) {
         kaptchaUtils.validateCaptcha(request.captchaId, request.value);
         userInfoService.register(request.email, request.username, request.password);
-        ResponseVO<String> response = new ResponseVO<String>();
-        response.setCode(200);
-        response.setMessage("success");
+        ResponseVO<String> response = ResponseVO.success(null);
         return response;
     }
 
     @PostMapping("/login")
-    public String login(@Valid @RequestBody LoginRequset request) {
-        return new String();
+    public ResponseVO<?> login(@Valid @RequestBody LoginRequset request) {
+        kaptchaUtils.validateCaptcha(request.captchaId, request.value);
+        return ResponseVO.success(null);
     }
-    
     
 }
