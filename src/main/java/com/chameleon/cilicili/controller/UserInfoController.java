@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chameleon.cilicili.component.CookieComponent;
 import com.chameleon.cilicili.component.KaptchaComponent;
 import com.chameleon.cilicili.controller.request.LoginRequset;
 import com.chameleon.cilicili.controller.request.RegisterRequest;
@@ -29,9 +30,13 @@ public class UserInfoController {
     @Autowired
     private final KaptchaComponent kaptchaUtils;
 
-    public UserInfoController(UserInfoServiceImpl userInfoService, KaptchaComponent kaptchaUtils) {
+    @Autowired
+    private final CookieComponent cookieComponent;
+
+    public UserInfoController(UserInfoServiceImpl userInfoService, KaptchaComponent kaptchaUtils, CookieComponent cookieComponent) {
         this.userInfoService = userInfoService;
         this.kaptchaUtils = kaptchaUtils;
+        this.cookieComponent = cookieComponent;
     }
 
     public UserInfoServiceImpl getUserInfoService() {
@@ -59,7 +64,7 @@ public class UserInfoController {
         kaptchaUtils.validateCaptcha(request.captchaId, request.value);
         UserInfoDto user = UserInfoDto.fromEntity(
                 userInfoService.login(request.email, request.password));
-        response.addCookie(null);
+        response.addCookie(cookieComponent.createCookie(user));
         return ResponseVO.success(user);
     }
     
