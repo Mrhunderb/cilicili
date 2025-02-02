@@ -1,11 +1,11 @@
-package com.chameleon.cilicili.config.security;
+package com.chameleon.cilicili.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SecurityUtils {
+public class SecurityComponent {
 
     @Autowired
     private PasswordEncoder passwordEncoder;

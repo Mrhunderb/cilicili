@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chameleon.cilicili.config.kaptcha.KaptchaUtils;
+import com.chameleon.cilicili.component.KaptchaComponent;
 import com.chameleon.cilicili.controller.request.LoginRequset;
 import com.chameleon.cilicili.controller.request.RegisterRequest;
 import com.chameleon.cilicili.controller.response.ResponseVO;
@@ -16,6 +16,7 @@ import com.chameleon.cilicili.model.dto.UserInfoDto;
 import com.chameleon.cilicili.model.entity.UserInfo;
 import com.chameleon.cilicili.service.impl.UserInfoServiceImpl;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -26,9 +27,9 @@ public class UserInfoController {
     private final UserInfoServiceImpl userInfoService;
 
     @Autowired
-    private final KaptchaUtils kaptchaUtils;
+    private final KaptchaComponent kaptchaUtils;
 
-    public UserInfoController(UserInfoServiceImpl userInfoService, KaptchaUtils kaptchaUtils) {
+    public UserInfoController(UserInfoServiceImpl userInfoService, KaptchaComponent kaptchaUtils) {
         this.userInfoService = userInfoService;
         this.kaptchaUtils = kaptchaUtils;
     }
@@ -53,10 +54,12 @@ public class UserInfoController {
     }
 
     @PostMapping("/login")
-    public ResponseVO<?> login(@Valid @RequestBody LoginRequset request) {
+    public ResponseVO<?> login(HttpServletResponse response,
+                               @Valid @RequestBody LoginRequset request) {
         kaptchaUtils.validateCaptcha(request.captchaId, request.value);
         UserInfoDto user = UserInfoDto.fromEntity(
                 userInfoService.login(request.email, request.password));
+        response.addCookie(null);
         return ResponseVO.success(user);
     }
     

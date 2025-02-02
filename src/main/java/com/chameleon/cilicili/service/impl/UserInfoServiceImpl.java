@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.chameleon.cilicili.config.security.SecurityUtils;
+import com.chameleon.cilicili.component.SecurityComponent;
 import com.chameleon.cilicili.dao.impl.UserInfoDaoImpl;
 import com.chameleon.cilicili.exception.ServiceException;
 import com.chameleon.cilicili.model.dto.UserInfoDto;
@@ -21,7 +21,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserInfoDaoImpl userInfoDao;
 
     @Autowired
-    private SecurityUtils securityUtils;
+    private SecurityComponent securityUtils;
 
     @Override
     public UserInfo findByUserId(String userId) {

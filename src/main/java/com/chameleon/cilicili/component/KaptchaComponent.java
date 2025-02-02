@@ -1,4 +1,4 @@
-package com.chameleon.cilicili.config.kaptcha;
+package com.chameleon.cilicili.component;
 
 import java.util.Base64;
 import java.util.HashMap;
@@ -11,22 +11,21 @@ import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.chameleon.cilicili.config.redis.RedisUtils;
 import com.chameleon.cilicili.exception.KaptchaException;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 
 @Component
-public class KaptchaUtils {
+public class KaptchaComponent {
 
     @Autowired
     private DefaultKaptcha defaultKaptcha;
 
     @Autowired 
-    private RedisUtils redisUtils;
+    private RedisComponent redisUtils;
 
     private final String KEY = "captcha:";
 
-    private final long TIMEOUT_SECOND = 60;
+    private final long TIMEOUT_SECOND = 120;
 
     private final String FORMAT = "png";
 

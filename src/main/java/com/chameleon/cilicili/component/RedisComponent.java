@@ -1,11 +1,11 @@
-package com.chameleon.cilicili.config.redis;
+package com.chameleon.cilicili.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RedisUtils {
+public class RedisComponent {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;

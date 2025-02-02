@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chameleon.cilicili.config.kaptcha.KaptchaUtils;
+import com.chameleon.cilicili.component.KaptchaComponent;
 import com.chameleon.cilicili.controller.response.ResponseVO;
 
 @RestController
@@ -16,7 +16,7 @@ import com.chameleon.cilicili.controller.response.ResponseVO;
 public class CommonController {
 
     @Autowired
-    private KaptchaUtils kaptchaUtils;
+    private KaptchaComponent kaptchaUtils;
  
     @GetMapping("/captcha")
     public ResponseEntity<?> captcha() {
