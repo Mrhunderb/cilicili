@@ -13,7 +13,7 @@ public class RedisComponent {
     private final String PREFIX = "cilicili:";
 
     public void set(String key, Object value) {
-        redisTemplate.opsForValue().set(key, value);
+        redisTemplate.opsForValue().set(PREFIX+key, value);
     }
 
     public Object get(String key) {

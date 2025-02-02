@@ -19,6 +19,8 @@ public class CookieComponent {
 
     private static final int COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 
+    private static final String REDIS_KEY = "cookie:";
+
     @Autowired
     private final RedisComponent redisComponent;
 
@@ -31,7 +33,7 @@ public class CookieComponent {
         Cookie cookie = new Cookie(COOKIE_NAME, value);
         cookie.setPath(COOKIE_PATH);
         cookie.setMaxAge(COOKIE_MAX_AGE);
-        redisComponent.set(value, userInfoDto);
+        redisComponent.set(REDIS_KEY+value, userInfoDto);
         return cookie;
     }
     
