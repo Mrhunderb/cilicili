@@ -1,4 +1,4 @@
-package com.chameleon.cilicili.config.security;
+package com.chameleon.cilicili.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
