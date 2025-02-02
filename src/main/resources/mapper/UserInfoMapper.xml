@@ -12,7 +12,11 @@
     </insert>
 
     <update id="update">
-        UPDATE user_info SET username = #{username}, email = #{email} WHERE id = #{id}
+        UPDATE user_info 
+        SET username = #{username}, email = #{email}, password = #{password}, intro = #{intro}, 
+            sex = #{sex}, join_time = #{joinTime}, last_login = #{lastLogin}, coin_num = #{coinNum},
+            status = #{status}, level = #{level}, xp = #{xp}
+        WHERE id = #{id}
     </update>
 
     <select id="selectById" resultMap="userInfoMap">

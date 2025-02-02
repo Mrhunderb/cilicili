@@ -2,16 +2,16 @@ package com.chameleon.cilicili.dao;
 
 import java.util.List;
 
-public interface Dao {
+public interface Dao<T> {
 
-    public void insert(Object obj);
+    public void insert(T obj);
 
-    public void update(Object obj);
+    public void update(T obj);
 
-    public Object selectById(String id);
+    public T selectById(String id);
 
     public void deleteById(String id);
     
-    public List<?> selectAll();
+    public List<T> selectAll();
 
 }

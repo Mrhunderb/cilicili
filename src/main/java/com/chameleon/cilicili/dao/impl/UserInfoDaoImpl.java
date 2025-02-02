@@ -8,13 +8,13 @@ import com.chameleon.cilicili.dao.Dao;
 import com.chameleon.cilicili.model.entity.UserInfo;
 
 @Mapper
-public interface UserInfoDaoImpl extends Dao {
+public interface UserInfoDaoImpl extends Dao<UserInfo> {
 
     @Override
-    public void insert(Object obj);
+    public void insert(UserInfo obj);
 
     @Override
-    public void update(Object obj);
+    public void update(UserInfo obj);
 
     @Override
     public UserInfo selectById(String id);

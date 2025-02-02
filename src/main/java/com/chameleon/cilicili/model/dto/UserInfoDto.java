@@ -2,6 +2,8 @@ package com.chameleon.cilicili.model.dto;
 
 import java.sql.Timestamp;
 
+import com.chameleon.cilicili.model.entity.UserInfo;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,5 +36,21 @@ public class UserInfoDto {
     private Byte level;
 
     private Integer xp;
+
+    public static UserInfoDto fromEntity(UserInfo user) {
+        return UserInfoDto.builder().
+            userId(user.getUserId()).
+            username(user.getUsername()).
+            email(user.getEmail()).
+            sex(user.getSex()).
+            intro(user.getIntro()).
+            joinTime(user.getJoinTime()).
+            lastLogin(user.getLastLogin()).
+            coinNum(user.getCoinNum()).
+            status(user.getStatus()).
+            level(user.getLevel()).
+            xp(user.getXp()).
+        build();
+    }
 
 }

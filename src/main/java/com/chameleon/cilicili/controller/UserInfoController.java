@@ -12,6 +12,7 @@ import com.chameleon.cilicili.config.kaptcha.KaptchaUtils;
 import com.chameleon.cilicili.controller.request.LoginRequset;
 import com.chameleon.cilicili.controller.request.RegisterRequest;
 import com.chameleon.cilicili.controller.response.ResponseVO;
+import com.chameleon.cilicili.model.dto.UserInfoDto;
 import com.chameleon.cilicili.model.entity.UserInfo;
 import com.chameleon.cilicili.service.impl.UserInfoServiceImpl;
 
@@ -54,7 +55,9 @@ public class UserInfoController {
     @PostMapping("/login")
     public ResponseVO<?> login(@Valid @RequestBody LoginRequset request) {
         kaptchaUtils.validateCaptcha(request.captchaId, request.value);
-        return ResponseVO.success(null);
+        UserInfoDto user = UserInfoDto.fromEntity(
+                userInfoService.login(request.email, request.password));
+        return ResponseVO.success(user);
     }
     
 }

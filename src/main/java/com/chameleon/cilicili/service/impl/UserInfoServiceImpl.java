@@ -100,7 +100,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void login(String email, String password) {
+    public UserInfo login(String email, String password) {
         UserInfo user = findByEmail(email);
         if (user == null) {
             throw new ServiceException("该邮箱未注册");
@@ -111,6 +111,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         user.setLastLogin(new Timestamp(System.currentTimeMillis()));
         update(user);
+        return user;
     }
 
 }
