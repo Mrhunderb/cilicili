@@ -44,6 +44,26 @@ public class CookieComponent {
         redisComponent.delete(REDIS_KEY+cookie.getValue());
     }
 
+    public UserInfoDto validateCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (COOKIE_NAME.equals(cookie.getName())) {
+                    UserInfoDto userInfoDto = (UserInfoDto)redisComponent.get(REDIS_KEY+cookie.getValue());
+                    if (userInfoDto != null) {
+                        if (userInfoDto.getExpireTime() < System.currentTimeMillis()) {
+                            deleteCookie(cookie);
+                            break;
+                        }
+                        return userInfoDto;
+                    }
+                    break;
+                }
+            }
+        }
+        return null;
+    }
+
     public void clearCookie(HttpServletRequest request,HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {

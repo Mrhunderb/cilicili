@@ -72,12 +72,20 @@ public class UserInfoController {
         return ResponseVO.success(user);
     }
 
+    @GetMapping("/autoLogin")
+    public ResponseVO<?> autoLogin(HttpServletRequest request) {
+        UserInfoDto userInfoDto = cookieComponent.validateCookie(request);
+        if (userInfoDto == null) {
+            return ResponseVO.failure("未登录");
+        }
+        return ResponseVO.success(userInfoDto);
+    }
+    
+
     @GetMapping("/logout")
     public ResponseVO<?> logout(HttpServletRequest request, HttpServletResponse response) {
         cookieComponent.clearCookie(request, response);
         return ResponseVO.success(null);
-
     }
-    
     
 }
