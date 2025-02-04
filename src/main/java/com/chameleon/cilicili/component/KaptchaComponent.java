@@ -63,11 +63,14 @@ public class KaptchaComponent {
     }
 
     public void validateCaptcha(String id, String text) {
-        String captcha = (String) redisUtils.get(KEY+id);
-        if (captcha == null || !captcha.equals(text)) {
-            throw new KaptchaException("验证码错误");
+        try {
+            String captcha = (String) redisUtils.get(KEY+id);
+            if (captcha == null || !captcha.equals(text)) {
+                throw new KaptchaException("验证码错误");
+            }
+        } finally {
+            redisUtils.delete(KEY+id);
         }
-        redisUtils.delete(KEY+id);
     }
     
 }

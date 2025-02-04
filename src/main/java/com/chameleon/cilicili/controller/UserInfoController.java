@@ -17,6 +17,8 @@ import com.chameleon.cilicili.model.dto.UserInfoDto;
 import com.chameleon.cilicili.model.entity.UserInfo;
 import com.chameleon.cilicili.service.impl.UserInfoServiceImpl;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
@@ -59,13 +61,23 @@ public class UserInfoController {
     }
 
     @PostMapping("/login")
-    public ResponseVO<?> login(HttpServletResponse response,
-                               @Valid @RequestBody LoginRequset request) {
-        kaptchaUtils.validateCaptcha(request.captchaId, request.value);
+    public ResponseVO<?> login(
+                               HttpServletResponse response,
+                               @Valid @RequestBody LoginRequset loginRequset) {
+        kaptchaUtils.validateCaptcha(loginRequset.captchaId, loginRequset.value);
         UserInfoDto user = UserInfoDto.fromEntity(
-                userInfoService.login(request.email, request.password));
-        response.addCookie(cookieComponent.createCookie(user));
+                userInfoService.login(loginRequset.email, loginRequset.password));
+        Cookie cookie = cookieComponent.createCookie(user);
+        response.addCookie(cookie);
         return ResponseVO.success(user);
     }
+
+    @GetMapping("/logout")
+    public ResponseVO<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        cookieComponent.clearCookie(request, response);
+        return ResponseVO.success(null);
+
+    }
+    
     
 }
